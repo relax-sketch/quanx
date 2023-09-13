@@ -1,0 +1,18 @@
+      append-proxy-groups:
+        - name: 负载均衡-延迟
+          type: url-test
+          url: 'http://www.google.com/generate_204'
+          interval: 300
+      prepend-rules:
+        - DOMAIN-SUFFIX,bilibili.com,DIRECT
+        - PROCESS-NAME,QQMusic.exe,DIRECT
+        - DOMAIN-SUFFIX,cnki.net,DIRECT
+        - DOMAIN-SUFFIX,moshou.moyumomo.com,DIRECT
+        - PROCESS-NAME,onedrive.exe,DIRECT
+        - PROCESS-NAME,WINWORD.EXE,DIRECT
+        - PROCESS-NAME,todesk.exe,DIRECT
+        - PROCESS-NAME,python.exe,Hneko云
+      commands: 
+        - dns.enhanced-mode=fake-ip
+        - proxy-groups.负载均衡-延迟.proxies+[]proxyNames|^(?!.*(节点|百|流量|重置|套餐)).*$
+        - proxy-groups.0.proxies.0+负载均衡-延迟
