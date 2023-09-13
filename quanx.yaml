@@ -1,0 +1,165 @@
+parsers:
+  - url: https://hneko.site/api/v1/client/subscribe?token=3b5dd529cd86b951e7f1413471cf2d0d
+    yaml: 
+      append-proxy-groups:
+        - name: 负载均衡-延迟
+          type: url-test
+          url: 'http://www.google.com/generate_204'
+          interval: 300
+      prepend-rules:
+        - DOMAIN-SUFFIX,bilibili.com,DIRECT
+        - PROCESS-NAME,QQMusic.exe,DIRECT
+        - DOMAIN-SUFFIX,cnki.net,DIRECT
+        - DOMAIN-SUFFIX,moshou.moyumomo.com,DIRECT
+        - PROCESS-NAME,onedrive.exe,DIRECT
+        - PROCESS-NAME,WINWORD.EXE,DIRECT
+        - PROCESS-NAME,todesk.exe,DIRECT
+        - PROCESS-NAME,python.exe,Hneko云
+      commands: 
+        - dns.enhanced-mode=fake-ip
+        - proxy-groups.负载均衡-延迟.proxies+[]proxyNames|^(?!.*(节点|百|流量|重置|套餐)).*$
+        - proxy-groups.0.proxies.0+负载均衡-延迟
+
+        
+  - url: https://api.stentvessel.top/sub?target=clash&new_name=true&emoji=true&clash.doh=true&filename=YToo_SS&udp=true&config=https%3A%2F%2Fsubweb.s3.fr-par.scw.cloud%2FRemoteConfig%2Fcustomized%2Fytoo.ini&url=https%3A%2F%2Fapi.ytoo.xyz%2Fosubscribe.php%3Fsid%3D20696%26token%3DS7sS5lfLNQcr%26sip002%3D1
+    yaml: 
+      append-proxy-groups:
+        - name: 负载均衡-可用
+          type: fallback
+          url: 'http://www.google.com/generate_204'
+          interval: 300
+          proxies:
+            - 🇭🇰 日用 专线 香港 [0.2]
+            - 🇸🇬 日用 专线 狮城 [0.2]
+            #- 🇯🇵 日用 专线 日本 [0.2]
+            - 🇺🇸 日用 专线 美国 [0.2]
+        - name: 负载均衡-延迟
+          type: url-test
+          url: 'http://www.google.com/generate_204'
+          interval: 300
+          proxies:
+            - 🇭🇰 日用 专线 香港 [0.2]
+            - 🇸🇬 日用 专线 狮城 [0.2]
+            #- 🇯🇵 日用 专线 日本 [0.2]
+            - 🇺🇸 日用 专线 美国 [0.2]
+        - name: 负载均衡-轮询
+          type: load-balance
+          url: 'http://www.google.com/generate_204'
+          interval: 300
+          proxies:
+            - 🇭🇰 日用 专线 香港 [0.2]
+            - 🇸🇬 日用 专线 狮城 [0.2]
+            #- 🇯🇵 日用 专线 日本 [0.2]
+            - 🇺🇸 日用 专线 美国 [0.2]
+          strategy: round-robin    
+        - name: 游戏模式
+          type: url-test
+          url: 'http://www.google.com/generate_204'
+          interval: 300
+          proxies:
+            - 🇭🇰 高级 专线 香港 01
+            - 🇭🇰 高级 专线 香港 02
+            - 🇭🇰 高级 专线 香港 03
+            - 🇭🇰 高级 专线 香港 04
+            - 🇭🇰 高级 专线 香港 05
+            - 🇭🇰 高级 专线 香港 06
+            - 🇭🇰 高级 专线 香港 07
+        - name: USTEST
+          type: url-test
+          url: 'http://www.google.com/generate_204'
+          interval: 300
+          proxies:
+            - 🇺🇸 日用 专线 美国 [0.2]
+            - 🇺🇸 高级 专线 美国 01
+            - 🇺🇸 高级 专线 美国 02
+            - 🇺🇸 高级 专线 美国 03
+            - 🇺🇸 高级 专线 美国 04
+            - 🇺🇸 高级 专线 美国 05
+            - 🇺🇸 高级 专线 美国 06
+            - 🇺🇸 高级 专线 美国 07
+            - 🇺🇸 高级 专线 美国 08
+            - 🇺🇸 高级 专线 美国 09
+            - 🇺🇸 高级 专线 美国 10
+            - 🇺🇸 标准 专线 美国 01
+            - 🇺🇸 标准 专线 美国 02
+            - 🇺🇸 标准 专线 美国 03
+            - 🇺🇸 标准 专线 美国 04
+            - 🇺🇸 标准 专线 美国 05
+            - 🇺🇸 标准 专线 美国 06
+        - name: tiktok
+          type: url-test
+          url: 'http://www.google.com/generate_204'
+          interval: 300
+          proxies:
+            - 🇸🇬 日用 专线 狮城 [0.2]
+            - 🇯🇵 日用 专线 日本 [0.2]
+            - 🇺🇸 日用 专线 美国 [0.2]
+      prepend-rules:
+        - DOMAIN-KEYWORD,openai,USTEST
+        - DOMAIN-SUFFIX,cnki.net,DIRECT
+        - DOMAIN-SUFFIX,bilibili.com,DIRECT
+        - PROCESS-NAME,QQMusic.exe,DIRECT
+        - PROCESS-NAME,LeagueClient.exe,DIRECT
+        - PROCESS-NAME,RiotClientServices.exe,DIRECT
+        - PROCESS-NAME,LeagueClientUxRender.exe,DIRECT
+        - PROCESS-NAME,League of Legends.exe,DIRECT
+        
+        - DOMAIN-SUFFIX,kns.cnki.net,DIRECT
+        - DOMAIN-SUFFIX,bar.cnki.net,DIRECT
+        - DOMAIN-SUFFIX,moshou.moyumomo.com,DIRECT
+        - PROCESS-NAME,onedrive.exe,DIRECT
+        - PROCESS-NAME,WINWORD.EXE,DIRECT
+        - PROCESS-NAME,todesk.exe,DIRECT
+        - PROCESS-NAME,python.exe,Proxies
+        - PROCESS-NAME,Hearthstone.exe,游戏模式
+        - PROCESS-NAME,Battle.net.exe,游戏模式
+        - PROCESS-NAME,Agent.exe,游戏模式
+        - PROCESS-NAME,steam.exe,游戏模式
+        - PROCESS-NAME,steamwebhelper.exe,游戏模式
+        - PROCESS-NAME,ui32.exe,游戏模式
+        - DOMAIN,p16-tiktokcdn-com.akamaized.net,tiktok
+        - DOMAIN-SUFFIX,musical.ly,tiktok
+        - DOMAIN-SUFFIX,tiktok.com,tiktok
+        - DOMAIN-SUFFIX,snssdk.com,tiktok
+        - DOMAIN-SUFFIX,muscdn.com,tiktok
+        - DOMAIN-SUFFIX,ipstatp.com,tiktok
+        - DOMAIN-SUFFIX,isnssdk.com,tiktok
+        - DOMAIN-SUFFIX,tiktokd.net,tiktok
+        - DOMAIN-SUFFIX,tiktokd.org,tiktok
+        - DOMAIN-SUFFIX,tiktokv.com,tiktok
+        - DOMAIN-SUFFIX,sgpstatp.com,tiktok
+        - DOMAIN-SUFFIX,ibyteimg.com,tiktok
+        - DOMAIN-SUFFIX,bytedapm.com,tiktok
+        - DOMAIN-SUFFIX,bytegecko.com,tiktok
+        - DOMAIN-SUFFIX,ibytedtos.com,tiktok
+        - DOMAIN-SUFFIX,tiktokcdn.com,tiktok
+        - DOMAIN-SUFFIX,tik-tokapi.com,tiktok
+        - DOMAIN-SUFFIX,byteoversea.com,tiktok
+        - DOMAIN-SUFFIX,tiktokcdn-us.com,tiktok
+        - DOMAIN-SUFFIX,bytegecko-i18n.com,tiktok
+        - DOMAIN-KEYWORD,tiktok,tiktok
+      commands:
+        - proxy-groups.0.proxies.0+负载均衡-可用
+        - proxy-groups.0.proxies.0+负载均衡-延迟
+        - proxy-groups.0.proxies.0+负载均衡-轮询
+  - url: https://sub.fscloud.cc/api/v1/client/subscribe?token=4558c3c47fbe75541f000b58eb7522e1
+    yaml: 
+      append-proxy-groups:
+        - name: 负载均衡-延迟
+          type: url-test
+          url: 'http://www.google.com/generate_204'
+          interval: 180
+
+      prepend-rules:
+        - DOMAIN-SUFFIX,bilibili.com,DIRECT
+        - PROCESS-NAME,QQMusic.exe,DIRECT
+        - DOMAIN-SUFFIX,cnki.net,DIRECT
+        - DOMAIN-SUFFIX,moshou.moyumomo.com,DIRECT
+        - PROCESS-NAME,onedrive.exe,DIRECT
+        - PROCESS-NAME,WINWORD.EXE,DIRECT
+        - PROCESS-NAME,todesk.exe,DIRECT
+        - PROCESS-NAME,python.exe,FSCloud
+      commands: 
+        - dns.enhanced-mode=fake-ip
+        - proxy-groups.负载均衡-延迟.proxies+[]proxyNames|^(?!.*(节点|百|流量|重置|套餐)).*$
+        - proxy-groups.0.proxies.0+负载均衡-延迟
