@@ -3,72 +3,22 @@ append-proxy-groups:
     type: fallback
     url: 'http://www.google.com/generate_204'
     interval: 300
-    proxies:
-      - 🇭🇰 日用 专线 香港 [0.2]
-      - 🇸🇬 日用 专线 狮城 [0.2]
-      #- 🇯🇵 日用 专线 日本 [0.2]
-      - 🇺🇸 日用 专线 美国 [0.2]
   - name: 负载均衡-延迟
     type: url-test
     url: 'http://www.google.com/generate_204'
     interval: 300
-    proxies:
-      - 🇭🇰 日用 专线 香港 [0.2]
-      - 🇸🇬 日用 专线 狮城 [0.2]
-      #- 🇯🇵 日用 专线 日本 [0.2]
-      - 🇺🇸 日用 专线 美国 [0.2]
-  - name: 负载均衡-轮询
-    type: load-balance
-    url: 'http://www.google.com/generate_204'
-    interval: 300
-    proxies:
-      - 🇭🇰 日用 专线 香港 [0.2]
-      - 🇸🇬 日用 专线 狮城 [0.2]
-      #- 🇯🇵 日用 专线 日本 [0.2]
-      - 🇺🇸 日用 专线 美国 [0.2]
-    strategy: round-robin    
   - name: 游戏模式
     type: url-test
     url: 'http://www.google.com/generate_204'
-    interval: 300
-    proxies:
-      - 🇭🇰 高级 专线 香港 01
-      - 🇭🇰 高级 专线 香港 02
-      - 🇭🇰 高级 专线 香港 03
-      - 🇭🇰 高级 专线 香港 04
-      - 🇭🇰 高级 专线 香港 05
-      - 🇭🇰 高级 专线 香港 06
-      - 🇭🇰 高级 专线 香港 07
+    interval: 600
   - name: USTEST
     type: url-test
     url: 'http://www.google.com/generate_204'
     interval: 300
-    proxies:
-      - 🇺🇸 日用 专线 美国 [0.2]
-      - 🇺🇸 高级 专线 美国 01
-      - 🇺🇸 高级 专线 美国 02
-      - 🇺🇸 高级 专线 美国 03
-      - 🇺🇸 高级 专线 美国 04
-      - 🇺🇸 高级 专线 美国 05
-      - 🇺🇸 高级 专线 美国 06
-      - 🇺🇸 高级 专线 美国 07
-      - 🇺🇸 高级 专线 美国 08
-      - 🇺🇸 高级 专线 美国 09
-      - 🇺🇸 高级 专线 美国 10
-      - 🇺🇸 标准 专线 美国 01
-      - 🇺🇸 标准 专线 美国 02
-      - 🇺🇸 标准 专线 美国 03
-      - 🇺🇸 标准 专线 美国 04
-      - 🇺🇸 标准 专线 美国 05
-      - 🇺🇸 标准 专线 美国 06
   - name: tiktok
     type: url-test
     url: 'http://www.google.com/generate_204'
     interval: 300
-    proxies:
-      - 🇸🇬 日用 专线 狮城 [0.2]
-      - 🇯🇵 日用 专线 日本 [0.2]
-      - 🇺🇸 日用 专线 美国 [0.2]
 prepend-rules:
   - DOMAIN-KEYWORD,openai,USTEST
   - DOMAIN-SUFFIX,cnki.net,DIRECT
@@ -78,11 +28,14 @@ prepend-rules:
   - PROCESS-NAME,RiotClientServices.exe,DIRECT
   - PROCESS-NAME,LeagueClientUxRender.exe,DIRECT
   - PROCESS-NAME,League of Legends.exe,DIRECT
+  - PROCESS-NAME,douyin_tray.exe,DIRECT
+  - PROCESS-NAME,douyin.exe,DIRECT
   
   - DOMAIN-SUFFIX,kns.cnki.net,DIRECT
   - DOMAIN-SUFFIX,bar.cnki.net,DIRECT
   - DOMAIN-SUFFIX,moshou.moyumomo.com,DIRECT
   - PROCESS-NAME,onedrive.exe,DIRECT
+  - PROCESS-NAME,OneDriveStandaloneUpdater.exe,DIRECT
   - PROCESS-NAME,WINWORD.EXE,DIRECT
   - PROCESS-NAME,todesk.exe,DIRECT
   - PROCESS-NAME,python.exe,Proxies
@@ -114,6 +67,12 @@ prepend-rules:
   - DOMAIN-SUFFIX,bytegecko-i18n.com,tiktok
   - DOMAIN-KEYWORD,tiktok,tiktok
 commands:
+  - proxy-groups.负载均衡-可用.proxies+[]proxyNames|^(?!.*日本).*0\.2.*$
+  - proxy-groups.负载均衡-延迟.proxies+[]proxyNames|^(?!.*日本).*0\.2.*$
+  - proxy-groups.游戏模式.proxies+[]proxyNames|^(?!.*8)(?!.*7)(?!.*标准.*3|.*3.*标准)(?=.*香港)(?=.*专线).*$
+  - proxy-groups.USTEST.proxies+[]proxyNames|^(?!.*8)(?=.*美国)(?=.*专线).*$
+  - proxy-groups.tiktok.proxies+[]proxyNames|^(?!.*8)(?=.*香港)(?=.*专线).*$
   - proxy-groups.0.proxies.0+负载均衡-可用
   - proxy-groups.0.proxies.0+负载均衡-延迟
-  - proxy-groups.0.proxies.0+负载均衡-轮询
+
+  
